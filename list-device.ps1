@@ -1,6 +1,24 @@
 # Cisco Webex Device List Script
 # This script lists all devices from the Webex API
 
+# Cisco Webex Device List Script
+# This script lists all devices from the Webex API
+
+param (
+    [switch]$Debug = $false
+)
+
+# Display warning if debug mode is enabled
+if ($Debug) {
+    Write-Host "WARNING: Debug mode is enabled. Your access token will be displayed in plain text." -ForegroundColor Red
+    Write-Host "This should only be used for troubleshooting and not in production environments." -ForegroundColor Red
+    $confirmation = Read-Host "Are you sure you want to continue? (Y/N)"
+    if ($confirmation -ne "Y" -and $confirmation -ne "y") {
+        Write-Host "Debug mode cancelled. Continuing with normal execution." -ForegroundColor Yellow
+        $Debug = $false
+    }
+}
+
 # Detect operating system using a different approach
 $isUnixSystem = ($PSVersionTable.OS -like "*Unix*") -or ($PSVersionTable.OS -like "*Darwin*") -or ($PSVersionTable.OS -like "*Linux*")
 
@@ -27,9 +45,11 @@ $headers = @{
     'Content-Type'  = 'application/json'
 }
 
-# For debugging - show token length and first few characters
+# For debugging - show token information
 Write-Host "Token length: $($accessTokenPlain.Length) characters" -ForegroundColor Green
-if ($accessTokenPlain.Length -gt 10) {
+if ($Debug) {
+    Write-Host "FULL TOKEN: $accessTokenPlain" -ForegroundColor Red
+} elseif ($accessTokenPlain.Length -gt 10) {
     Write-Host "First 10 chars: $($accessTokenPlain.Substring(0, 10))..." -ForegroundColor Green
 } else {
     Write-Host "WARNING: Token appears too short: $($accessTokenPlain.Length) chars" -ForegroundColor Red
