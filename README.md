@@ -2,7 +2,7 @@
 
 A collection of PowerShell scripts to help manage and query Cisco Webex devices.
 
-## List-Device Script
+## Get-Devices Script
 
 This script fetches and displays information about Cisco Webex devices using the Webex API.
 
@@ -26,24 +26,24 @@ You can run this script directly from GitHub without downloading it:
 
 #### Windows PowerShell
 ```powershell
-Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/list-device.ps1" -UseBasicParsing).Content
+Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/Get-Devices.ps1" -UseBasicParsing).Content
 ```
 
 #### PowerShell Core (Windows, macOS, Linux)
 ```powershell
-Invoke-Expression (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/list-device.ps1")
+Invoke-Expression (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/Get-Devices.ps1")
 ```
 
 ### Manual Download and Execution
 
 1. Download the script:
    ```powershell
-   Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/list-device.ps1" -OutFile "list-device.ps1"
+   Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/Get-Devices.ps1" -OutFile "Get-Devices.ps1"
    ```
 
 2. Run the script:
    ```powershell
-   ./list-device.ps1
+   ./Get-Devices.ps1
    ```
 
 ### Usage Instructions
