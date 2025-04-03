@@ -1,75 +1,105 @@
-# Cisco Webex Utilities
+# Cisco Webex Utils
 
-A collection of PowerShell scripts to help manage and query Cisco Webex devices.
+A collection of PowerShell utilities for working with Cisco Webex APIs.
 
-## Get-Devices Script
+## Get-Devices.ps1
 
-This script fetches and displays information about Cisco Webex devices using the Webex API.
+This script retrieves and lists all devices registered with your Cisco Webex account using the Webex API.
 
 ### Features
 
-- Secure handling of your Webex API token
-- Cross-platform support (Windows, macOS, Linux)
-- Tabular display of device information
-- Optional CSV export of complete device data
+- Lists all Webex devices with key information displayed in a table
+- Supports authentication via Personal Access Token or OAuth Implicit Flow
+- Cross-platform compatibility (Windows, macOS, Linux)
+- Option to export device data to CSV
+- Option for automatic CSV export (helpful for scheduled tasks)
+- Debug mode for troubleshooting
 
 ### Prerequisites
 
-- PowerShell 5.1 or higher
-  - Windows: Built-in
-  - macOS/Linux: Install [PowerShell Core](https://github.com/PowerShell/PowerShell#get-powershell)
-- A Webex Personal Access Token ([Get one here](https://developer.webex.com/docs/api/getting-started))
+- PowerShell 5.1 or higher (PowerShell Core 6+ recommended for cross-platform usage)
+- Internet connection to access Webex APIs
+- A Cisco Webex account with appropriate permissions
+- Either a Personal Access Token or an OAuth integration in Webex
 
-### Quick Start
-
-You can run this script directly from GitHub without downloading it:
-
-#### Windows PowerShell
+### Download the script
 ```powershell
-Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/Get-Devices.ps1" -UseBasicParsing).Content
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/Get-Devices.ps1" -OutFile "Get-Devices.ps1"
 ```
 
-#### PowerShell Core (Windows, macOS, Linux)
+### Usage
+
 ```powershell
-Invoke-Expression (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/Get-Devices.ps1")
+# Basic usage with manual token entry
+./Get-Devices.ps1
+
+# Use OAuth implicit flow for authentication
+./Get-Devices.ps1 -UseImplicitFlow
+
+# Automatically export to CSV without prompting
+./Get-Devices.ps1 -AutoExport
+
+# Enable debugging info
+./Get-Devices.ps1 -Debug
+
+# Combine options
+./Get-Devices.ps1 -UseImplicitFlow -AutoExport
 ```
 
-### Manual Download and Execution
+### Parameters
 
-1. Download the script:
-   ```powershell
-   Invoke-WebRequest -Uri "https://raw.githubusercontent.com/lecabit/Cisco-Webex-ControlHub-API-Powershell/main/Get-Devices.ps1" -OutFile "Get-Devices.ps1"
-   ```
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `-UseImplicitFlow` | Switch | Use OAuth implicit flow for authentication instead of manual token entry |
+| `-AutoExport` | Switch | Automatically export results to CSV without prompting |
+| `-Debug` | Switch | Enable debugging information (includes sensitive token information) |
 
-2. Run the script:
-   ```powershell
-   ./Get-Devices.ps1
-   ```
+### Authentication Methods
 
-### Usage Instructions
+#### Personal Access Token
 
-1. When prompted, enter your Cisco Webex Personal Access Token
-   - Your token is handled securely and will never be stored
-   - You can generate a token at [developer.webex.com](https://developer.webex.com/docs/api/getting-started)
-   
-   ![Getting a Webex API Token](docs/Access_the_Webex_API.png)
-   
+By default, the script will prompt you for a Personal Access Token. You can generate one from the [Webex Developer Portal](https://developer.webex.com/docs/getting-started).
 
-2. The script will fetch and display your devices in a table format
+#### OAuth Implicit Flow
 
-3. You'll be asked if you want to export the complete device data to a CSV file
-   - Default is Yes (just press Enter)
-   - The CSV will be saved to your Documents folder (or Desktop on macOS)
+When using the `-UseImplicitFlow` parameter, the script will:
+
+1. Open your default browser to authenticate with Webex
+2. You'll need to authorize the application
+3. After successful authorization, you'll be redirected to a local web server 
+4. The script will extract the authentication token and use it automatically
+
+To use OAuth Implicit Flow, you need to create an integration in the Webex Developer Portal:
+
+1. Go to https://developer.webex.com
+2. Sign in to your Webex account
+3. Navigate to "My Webex Apps"
+4. Click "Create a New App"
+5. Select "Integration" as the app type
+6. Fill in required information
+   - Redirect URI: `http://localhost:8080/`
+   - Scopes: `spark:devices_read`, `spark-admin:devices_read` and `openid`
+7. Update the client ID in the script with your integration's client ID
+
+### Examples
+
+**Basic usage:**
+```powershell
+./Get-Devices.ps1
+```
+
+**Use OAuth and export to CSV automatically:**
+```powershell
+./Get-Devices.ps1 -UseImplicitFlow -AutoExport
+```
 
 ### Troubleshooting
 
-- **Authentication Error**: Verify your access token is correct and hasn't expired
-- **No Devices Found**: Confirm your Webex account has associated devices
-- **Script Execution Policy**: If you get a security error, you might need to adjust your execution policy:
-  ```powershell
-  Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-  ```
+- **Authentication failures**: Ensure your token or OAuth client ID is correct.
+- **No devices found**: Verify you have the appropriate permissions for your account.
+- **Browser issues**: If the browser doesn't open automatically, manually visit the authorization URL shown in the console.
+- **Debug mode**: Use the `-Debug` parameter to see more detailed information about what's happening.
 
 ### License
 
-MIT
+This project is available under the MIT License. See LICENSE file for details.
