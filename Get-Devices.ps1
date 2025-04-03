@@ -291,6 +291,7 @@ if ($UseImplicitFlow) {
     $accessToken = Read-Host -AsSecureString
     $tokenCredential = New-Object System.Management.Automation.PSCredential("dummy", $accessToken)
     $accessTokenPlain = $tokenCredential.GetNetworkCredential().Password
+    $global:WebexAuthToken = $accessTokenPlain
 }
 
 $accessTokenPlain = $global:WebexAuthToken
