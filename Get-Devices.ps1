@@ -279,7 +279,7 @@ if ($UseImplicitFlow) {
     # Prompt if user needs help with getting a token
     $helpPrompt = Read-Host "Do you need help getting a Webex Personal Access Token? (Y/N) [Y]"
     if ($helpPrompt -eq "" -or $helpPrompt -eq "Y" -or $helpPrompt -eq "y") {
-        Write-Output "Opening Webex developer documentation in your browser..." -ForegroundColor Yellow
+        Write-Output "Opening Webex developer documentation in your browser..."
         $docUrl = "https://developer.webex.com/docs/getting-started"
         if (Open-InBrowser -Url $docUrl) {
             Write-Host "Documentation opened. Please follow the instructions to create your token." -ForegroundColor Green
@@ -287,7 +287,7 @@ if ($UseImplicitFlow) {
     }
     
     # Prompt user for access token securely
-    Write-Output "Please enter your Cisco Webex Personal Access Token" -ForegroundColor Cyan
+    Write-Host "Please enter your Cisco Webex Personal Access Token" -ForegroundColor Cyan
     $accessToken = Read-Host -AsSecureString
     $tokenCredential = New-Object System.Management.Automation.PSCredential("dummy", $accessToken)
     $accessTokenPlain = $tokenCredential.GetNetworkCredential().Password
