@@ -274,6 +274,7 @@ if ($UseImplicitFlow) {
         $accessToken = Read-Host -AsSecureString
         $tokenCredential = New-Object System.Management.Automation.PSCredential("dummy", $accessToken)
         $accessTokenPlain = $tokenCredential.GetNetworkCredential().Password
+        $global:WebexAuthToken = $tokenCredential.GetNetworkCredential().Password
     }
 } else {
     # Prompt if user needs help with getting a token
@@ -291,7 +292,7 @@ if ($UseImplicitFlow) {
     $accessToken = Read-Host -AsSecureString
     $tokenCredential = New-Object System.Management.Automation.PSCredential("dummy", $accessToken)
     $accessTokenPlain = $tokenCredential.GetNetworkCredential().Password
-    $global:WebexAuthToken = $accessTokenPlain
+    $global:WebexAuthToken = $tokenCredential.GetNetworkCredential().Password
 }
 
 $accessTokenPlain = $global:WebexAuthToken
